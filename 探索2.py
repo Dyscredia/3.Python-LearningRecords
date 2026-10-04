@@ -15,9 +15,9 @@ while times > 0:
         else:
             print("太大啦！往小了猜")
     times = times - 1
-    print("剩余机会：" ,times)
+    print("你还有"+str(times)+"次机会哟")
 if times == 6:
     print("一次就中，夸夸！")
 if times == 0:
-    print("大笨蛋，不和你玩了")
+    print("笨蛋，不和你玩了")
 print("游戏结束啦~")
