@@ -106,31 +106,27 @@ for n in list01:
     list25.append(num25)
     list35.append(num35)
 
-# 我们对四位时间数采取先逐位、再逐笔画判断的循环顺序。为便于循环，需要将同一轮次的7个开关序列关联整合，建立索引。
+# 将同一轮次7个开关的占位编号序列进行关联整合，形成4个序列之集合。后续循环可根据开关序数order索引某一开关的占位编号序列。
 list_turn0 = [list00, list01, list02, list03, list04, list05, list06]
 list_turn1 = [list10, list11, list12, list13, list14, list15, list16]
 list_turn2 = [list20, list21, list22, list23, list24, list25, list26]
 list_turn3 = [list30, list31, list32, list33, list34, list35, list36]
-
-index_mapping = {  
-    0: list_turn0, 
-    1: list_turn1,
-    2: list_turn2,
-    3: list_turn3}
+# 将对4个序列之集合放入序列，此时可根据轮次turn索引到某一轮涉及到的点位序列之集合。
+list_turn = [list_turn0, list_turn1, list_turn2, list_turn3]
 
 
 list_num = []  # 此处是需要用电子时钟显示的时间（四个数字表示）。先留空，交互后形成四位时间数序列。
-time = input("这是一个电子时钟显示器。请输入一个24小时制的时间（格式示例：1824）：")
+time = input("这是一个电子时钟显示器。请输入一个时间，用连续的四位数表示（示例：1824）：")
 for each in str(time):
     x = int(each)
     list_num.append(x)
 
 for turn in range(0, 4):  # 外层循环：逐位判断。四位时间数，从左侧开始。
-    num = list_num[turn]  # 从四位时间数中取出对象。
+    num = list_num[turn]  # 从四位时间数中取出每轮的对象。
     list_switch = list_switches[num]  # 从开关总表中找到该数对应的开关序列。
-    for order in range(0, 7):  # 中层：逐笔画判断，7个开关依序进行。（order表示正在判断7个开关中的哪一个）
-        if list_switch[order] == 1:  # 开关打开时需要操作，关闭则无需调整。
-            for i in index_mapping[turn][order]:  # 内层：逐点调整。索引到每个开关需要打开的点位编号。
+    for order in range(0, 7):  # 中层：逐笔画判断，order为开关序数（正在判断哪一开关）。
+        if list_switch[order] == 1:  # 依序判断每个开关，值为1时开关打开，需要操作；关闭则无需调整。
+            for i in list_turn[turn][order]:  # 内层：逐点位判断。索引到每个开关可以控制的点位编号。
                 list_total[i] = 1  # 在原有大坐标图的数字列表中，逐个将这些编号对应点位的0修改为1。
 
 # 设置好时钟冒号的区域，相应点位批量改为1。整理好最右列需要添加换行的点位。
@@ -148,9 +144,8 @@ for p in range(len(list_total)): # 遍历原有大空表。取1即改为“*”�
         result += "*"
     if list_total[p] == 0:
         result += " "
-    if p in list_enter:  # 处于换行位置的，其后换行。
+    if p in list_enter:  # 处于换行位置的点，其后插入换行符。
         result += "\n"
     p += 1  #该轮次结束，继续循环。
 
 print(result)  # 输出，完成。
-    

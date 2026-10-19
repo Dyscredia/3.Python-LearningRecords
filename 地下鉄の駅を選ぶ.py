@@ -18,8 +18,7 @@ Line6 = ["谢家桥","象鼻窝","中塘站","一师范西校区","长庆","和�
          "芙蓉区政府","人民东路","花桥","隆平水稻博物馆","农科院农大","东湖","韶光","龙华","檀木桥","曹家坪",
          "龙峰","大路村","木马缎","黄花机场T1T2"]
 Line总 = Line1 + Line2 + Line3 + Line4 + Line5 + Line6
-length总 = len(Line总)
-m = int(length总 + 1)
+m = int(len(Line总) + 1)
 import random
 n = random.randint(0,m)
-print(Line总[n])
+print("本次我们的目标站点是：" + Line总[n])
